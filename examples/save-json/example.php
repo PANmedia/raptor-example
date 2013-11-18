@@ -1,55 +1,22 @@
 <?php
-    include __DIR__ . '/../include/content.php';
-    $content = loadContent(__DIR__ . '/content.json');
+    include __DIR__ . '/../../include.php';
+    $example = new Raptor\Example('Save JSON');
 ?>
 <!doctype html>
 <html>
 <head>
-    <?php include __DIR__ . '/../include/head.php'; ?>
-    <title>Raptor Editor - Save JSON Example</title>
+    <?= $example->renderHead(); ?>
     <script type="text/javascript">
-        jQuery(function($) {
-            $('.editable').raptor({
-                urlPrefix: '../../src/',
-                plugins: {
-                    save: {
-                        plugin: 'saveJson'
-                    },
-                    saveJson: {
-                        url: 'save.php',
-                        postName: 'raptor-content',
-                        id: function() {
-                            return this.raptor.getElement().data('id');
-                        }
-                    },
-                    dock: {
-                        docked: true,
-                        under: '.switcher'
-                    },
-                    classMenu: {
-                        classes: {
-                            'Blue background': 'cms-blue-bg',
-                            'Round corners': 'cms-round-corners',
-                            'Indent and center': 'cms-indent-center'
-                        }
-                    },
-                    snippetMenu: {
-                        snippets: {
-                            'Grey Box': '<div class="grey-box"><h1>Grey Box</h1><ul><li>This is a list</li></ul></div>'
-                        }
-                    }
-                }
-            });
+        init(function($) {
+            $('.editable').raptor(defaultOptions);
         });
     </script>
 </head>
 <body>
-    <?php include __DIR__ . '/../include/nav.php'; ?>
-    <header>
-        <h1>Raptor Editor - Save JSON Example</h1>
-    </header>
+    <?= $example->renderNavigation(); ?>
     <div class="editable half" data-id="body-1">
         <?php ob_start(); ?>
+        <h1>Raptor Editor - Save JSON Example</h1>
         <p>
             Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
             has been the industry's standard dummy text ever since the 1500s, when an unknown printer
@@ -76,7 +43,7 @@
             <strong class="cms-bold">This text is bold.</strong>
             <em class="cms-italic">This text is italic.</em>
         </p>
-        <?= renderContent(ob_get_clean(), $content, 'body-1'); ?>
+        <?= $example->renderContent('body-1', ob_get_clean()); ?>
     </div>
     <div class="editable half" data-id="body-2">
         <?php ob_start(); ?>
@@ -125,7 +92,7 @@
                 <td>Cell</td>
             </tr>
         </table>
-        <?= renderContent(ob_get_clean(), $content, 'body-2'); ?>
+        <?= $example->renderContent('body-2', ob_get_clean()); ?>
     </div>
 
 </body>
