@@ -3,7 +3,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <link rel="stylesheet" href="<?= RAPTOR_PARTIALS_URI; ?>style.css" />
 <?php if ($type === 'packaged'): ?>
-    <?php require_once RAPTOR_THEMES_DIR . 'include.php'; ?>
+    <?php 
+        require_once RAPTOR_THEMES_DIR . 'include.php';
+        require_once RAPTOR_DEPENDENCIES_DIR . 'include.php';
+    ?>
     <script src="<?= RAPTOR_PACKAGES_URI; ?>raptor.js"></script>
 <?php elseif ($type === 'include'): ?>
     <?php
