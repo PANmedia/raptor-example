@@ -9,7 +9,7 @@ if (typeof raptor !== 'undefined') {
 }
 
 var defaultOptions = {
-    preset: 'full',
+    preset: 'full-premium',
     urlPrefix: '../../src/',
     plugins: {
         save: {
@@ -37,6 +37,19 @@ var defaultOptions = {
             snippets: {
                 'Grey Box': '<div class="grey-box"><h1>Grey Box</h1><ul><li>This is a list</li></ul></div>'
             }
+        },
+        revisions: {
+            url: function() {
+                var id = this.raptor.getElement().data('id');
+                if (id) {
+                    return '../../actions/revisions.php?id=' + id;
+                }
+            }
+        },
+        fileManager: {
+            uriPublic: '../../data/uploads/',
+            uriAction: '../../actions/file-manager.php',
+            uriIcon: '../../examples/file-manager/icon/'
         }
     }
 };
