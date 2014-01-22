@@ -106,6 +106,7 @@ class ActionList extends Action {
             } elseif (is_file($fullPath)) {
                 $json['files'][] = [
                     'name' => $name,
+//                    'src' => 'data:image/' . fileGetExtension($name) . ';base64,' . base64_encode(file_get_contents($fullPath)),
                     'type' => fileGetExtension($name),
                     'size' => filesize($fullPath),
                     'mtime' => filemtime($fullPath),
