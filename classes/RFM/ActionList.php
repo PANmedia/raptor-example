@@ -106,8 +106,8 @@ class ActionList extends Action {
             } elseif (is_file($fullPath)) {
                 $json['files'][] = [
                     // Static path example
-                    // 'name' => "http://www.my-cloud-storage/images/$name",
-                    // 'iconSrc' => "http://www.my-cloud-storage/images/icons/$name",
+                    // 'name' => "http://www.my-cloud-storage.com/images/$name",
+                    // 'iconSrc' => "http://www.my-cloud-storage.com/images/icons/$name",
 
                     // Relitive path example
                     'name' => $name,
