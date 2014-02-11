@@ -105,8 +105,14 @@ class ActionList extends Action {
                 $json['directories'][] = $name;
             } elseif (is_file($fullPath)) {
                 $json['files'][] = [
+                    // Static path example
+                    // 'name' => "http://www.my-cloud-storage/images/$name",
+                    // 'iconSrc' => "http://www.my-cloud-storage/images/icons/$name",
+
+                    // Relitive path example
                     'name' => $name,
-//                    'src' => 'data:image/' . fileGetExtension($name) . ';base64,' . base64_encode(file_get_contents($fullPath)),
+
+                    // Required attributes
                     'type' => fileGetExtension($name),
                     'size' => filesize($fullPath),
                     'mtime' => filemtime($fullPath),
