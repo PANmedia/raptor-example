@@ -31,7 +31,9 @@
         <form action="<?= RAPTOR_EXAMPLE_URI; ?>actions/save-comment.php" method="post" class="center half">
             <input type="hidden" name="redirect" value="<?= $_SERVER['REQUEST_URI']; ?>" />
             <h1>Raptor Inline Example</h1>
-            <textarea name="comment" class="editable"></textarea>
+            <div class="source-watch" data-output="#source" data-target=".editable">
+                <textarea name="comment" class="editable"></textarea>
+            </div>
             <br/>
             <button>Submit</button>
         </form>
@@ -43,6 +45,7 @@
                 </div>
             <?php endforeach; ?>
         </div>
+        <div id="source" class="center half"></div>
     </div>
 </body>
 </html>
