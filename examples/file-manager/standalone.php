@@ -2,13 +2,7 @@
 <!doctype html>
 <html>
 <head>
-    <?php
-        require_once RAPTOR_THEMES_DIR . 'include.php';
-        require_once RAPTOR_DEPENDENCIES_DIR . 'include.php';
-        require_once RAPTOR_COMMON_DIR . 'include.php';
-        require_once RAPTOR_LOCALES_DIR . 'include.php';
-        require_once RAPTOR_FILE_MANAGER_DIR . 'src/include.php';
-    ?>
+    <?php include __DIR__ . '/../../partials/head.php'; ?>
 </head>
 <body>
     <div id="file-manager"></div>
