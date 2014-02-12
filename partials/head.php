@@ -22,3 +22,12 @@
     ?>
 <?php endif; ?>
 <script src="<?= RAPTOR_PARTIALS_URI; ?>default.js"></script>
+
+<link rel="stylesheet" href="<?= RAPTOR_DEPENDENCIES_URI; ?>codemirror/lib/codemirror.css" />
+<script src="<?= RAPTOR_DEPENDENCIES_URI; ?>beautify-html.js"></script>
+<script src="<?= RAPTOR_DEPENDENCIES_URI; ?>codemirror/lib/codemirror.js"></script>
+<script src="<?= RAPTOR_DEPENDENCIES_URI; ?>codemirror/mode/javascript/javascript.js"></script>
+<script src="<?= RAPTOR_DEPENDENCIES_URI; ?>codemirror/mode/xml/xml.js"></script>
+<script src="<?= RAPTOR_DEPENDENCIES_URI; ?>codemirror/mode/css/css.js"></script>
+<script src="<?= RAPTOR_DEPENDENCIES_URI; ?>codemirror/mode/htmlmixed/htmlmixed.js"></script>
+<script src="<?= RAPTOR_PARTIALS_URI; ?>source-watch.js"></script>
