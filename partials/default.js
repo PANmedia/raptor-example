@@ -8,8 +8,15 @@ if (typeof raptor !== 'undefined') {
     alert('Could not find initialiser');
 }
 
+var preset;
+if (typeof init.fn.raptor.Raptor.presets['full-premium'] !== 'undefined') {
+    preset = 'full-premium';
+} else {
+    preset = 'full';
+}
+
 var defaultOptions = {
-    preset: 'full-premium',
+    preset: preset,
     urlPrefix: '../../src/',
     plugins: {
         save: {
