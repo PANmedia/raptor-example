@@ -1,33 +1,22 @@
 <?php
-    include __DIR__ . '/../include/content.php';
-    $content = loadContent(__DIR__ . '/content.json');
+    include __DIR__ . '/../../include.php';
+    $example = new Raptor\Example('Micro');
 ?>
 <!doctype html>
 <html>
 <head>
-    <?php include __DIR__ . '/../include/head.php'; ?>
-    <title>Raptor Editor - Micro Example</title>
+    <?= $example->renderHead(); ?>
     <script type="text/javascript">
-        // Test for no conflict version
-        var init;
-        if (typeof raptor !== 'undefined') {
-            init = raptor;
-        } else if (typeof jQuery !== 'undefined') {
-            init = jQuery;
-        } else {
-            alert('Could not find initialiser');
-        }
         init(function($) {
-            $('.editable').raptor({
-                urlPrefix: '../../src/',
+            $('.editable').raptor(extendDefaults({
                 preset: 'micro'
-            });
+            }));
         });
     </script>
 </head>
 <body>
-    <?php include __DIR__ . '/../include/nav.php'; ?>
-    <div class="half center">
+    <?= $example->renderNavigation(); ?>
+    <div class="center half">
         <h1 class="editable">Raptor Editor - Micro Example</h1>
         <p>
             Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
