@@ -73,16 +73,24 @@
                 </ol>
 
                 <p>
-                    Text above the image.
-                    <img src="../full-suite/images/orange.jpg" width="100" />
-                    Text below the image.
+                    Text before the image.
+                    <img src="../../partials/raptor.png" width="100" />
+                    Text after the image.
                 </p>
                 <p>
-                    The image below is a link.
+                    The before below is a link.
                     <a href="http://www.raptor-editor.com">
-                        <img src="../full-suite/images/orange.jpg" width="100" />
+                        <img src="../../partials/raptor.png" width="100" />
                     </a>
-                    The image above is a link.
+                    The after above is a link.
+                </p>
+
+                <p>
+                    <img src="../../partials/raptor.png" width="20" />
+                    <img src="../../partials/raptor.png" width="20" />
+                    <img src="../../partials/raptor.png" width="20" />
+                    <img src="../../partials/raptor.png" width="20" />
+                    <img src="../../partials/raptor.png" width="20" />
                 </p>
 
                 <table>
