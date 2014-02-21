@@ -61,6 +61,11 @@ pre {
     width: 45%;
     margin: 0 1%;
 }
+.third {
+    float: left;
+    width: 31%;
+    margin: 0 1%;
+}
 
 .center {
     margin: 0 auto;
