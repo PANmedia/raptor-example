@@ -8,11 +8,9 @@ if (typeof raptor !== 'undefined') {
     alert('Could not find initialiser');
 }
 
-var preset;
+var preset = 'full';
 if (typeof init.fn.raptor.Raptor.presets['full-premium'] !== 'undefined') {
     preset = 'full-premium';
-} else {
-    preset = 'full';
 }
 
 var defaultOptions = {
