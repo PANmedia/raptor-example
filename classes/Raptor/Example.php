@@ -75,4 +75,10 @@ class Example {
         return json_encode(false);
     }
 
+    public function getDefaultContent() {
+        ob_start();
+        require RAPTOR_PARTIALS_DIR . '/default-content.php';
+        return ob_get_clean();
+    }
+
 }
