@@ -96,6 +96,14 @@ class ActionList extends Action {
         $startPath = $this->fileManager->getRoot() . '/' . $path;
         $length = strlen($startPath);
         $stack[] = $startPath;
+        if (!file_exists($startPath)) {
+            if (!@mkdir($startPath)) {
+                throw new ServerException('Could not create upload directory: ' . $startPath);
+            }
+        }
+        if (!is_dir($startPath)) {
+            throw new ServerException('Upload path is not a directory: ' . $startPath);
+        }
         foreach (scandir($startPath) as $name) {
             $fullPath = $startPath . '/' . $name;
             if (!$name || $name[0] === '.') {
