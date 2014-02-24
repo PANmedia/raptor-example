@@ -16,7 +16,7 @@
                         url: function() {
                             var id = this.raptor.getElement().data('id');
                             if (id) {
-                                return 'revisions.php?id=' + id;
+                                return '../../actions/revisions.php?id=' + id;
                             }
                         }
                     }
