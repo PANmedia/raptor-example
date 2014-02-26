@@ -13,6 +13,7 @@
     </script>
     <style type="text/css">
         .editable {
+            margin-top: 10px;
             min-height: 10px;
             border: 1px dotted black;
         }
@@ -20,8 +21,11 @@
 </head>
 <body>
     <?= $example->renderNavigation(); ?>
-    <div class="editable center half" data-id="body-1">
-        <?= $example->renderContent('body-1', ''); ?>
+    <div class="source-watch" data-output="#source" data-target=".editable">
+        <div class="editable center half" data-id="body-1">
+            <?= $example->renderContent('body-1', ''); ?>
+        </div>
     </div>
+    <div id="source" class="center half"></div>
 </body>
 </html>
