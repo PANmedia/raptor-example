@@ -18,10 +18,20 @@ class FileManager {
 
     public function getAction() {
         $action = $this->getInput('action');
+        if (!$action) {
+            throw new ClientException('No action supplied.');
+        }
         switch ($action) {
             case 'delete': {
                 $this->input = $_POST;
                 return new ActionDelete($this);
+            }
+            case 'rename': {
+                $this->input = $_POST;
+                return new ActionRename($this);
+            }
+            case 'save': {
+                return new ActionSave($this);
             }
             case 'upload': {
                 $this->input = $_POST;

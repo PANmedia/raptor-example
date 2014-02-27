@@ -20,6 +20,15 @@ class File {
         }
     }
 
+    public function rename($to) {
+        if (!is_file($this->fullPath)) {
+            throw new FileNotFoundException($this->path);
+        }
+        if (!@rename($this->fullPath, dirname($this->fullPath) . '/' . $to)) {
+            throw new ServerException('Could not rename file: ' . $this->path);
+        }
+    }
+
     public function getExtension($lastDot = true) {
         if (strpos($this->fullPath, '.') === false) {
             return '';
