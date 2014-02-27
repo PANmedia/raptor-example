@@ -55,23 +55,23 @@
 
 <p>
     Text before the image.
-    <img src="../../partials/raptor.png" width="100" />
+    <img src="../../partials/raptor.png" width="100" data-id="raptor-example/partials/raptor.png" />
     Text after the image.
 </p>
 <p>
     The before below is a link.
     <a href="http://www.raptor-editor.com">
-        <img src="../../partials/raptor.png" width="100" />
+        <img src="../../partials/raptor.png" width="100" data-id="raptor-example/partials/raptor.png" />
     </a>
     The after above is a link.
 </p>
 
 <p>
-    <img src="../../partials/raptor.png" width="20" />
-    <img src="../../partials/raptor.png" width="20" />
-    <img src="../../partials/raptor.png" width="20" />
-    <img src="../../partials/raptor.png" width="20" />
-    <img src="../../partials/raptor.png" width="20" />
+    <img src="../../partials/raptor.png" width="20" data-id="raptor-example/partials/raptor.png" />
+    <img src="../../partials/raptor.png" width="20" data-id="raptor-example/partials/raptor.png" />
+    <img src="../../partials/raptor.png" width="20" data-id="raptor-example/partials/raptor.png" />
+    <img src="../../partials/raptor.png" width="20" data-id="raptor-example/partials/raptor.png" />
+    <img src="../../partials/raptor.png" width="20" data-id="raptor-example/partials/raptor.png" />
 </p>
 
 <table>
