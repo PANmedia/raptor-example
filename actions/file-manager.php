@@ -4,7 +4,7 @@
  *
  * @author David Neilsen <david@panmedia.co.nz>
  */
-require_once __DIR__ . '/../include.php';    
+require_once __DIR__ . '/../include.php';
 
 
 try {
@@ -15,7 +15,7 @@ try {
 } catch (RFM\ClientException $exception) {
     header('HTTP/1.1 400 Client Error');
     echo $exception->getMessage();
-} catch (RFM\FileManagerException $exception) {
+} catch (Exception $exception) {
     header('HTTP/1.1 500 Server Error');
     echo $exception->getMessage();
 }
