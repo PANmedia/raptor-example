@@ -55,6 +55,9 @@ var defaultOptions = {
             uriPublic: '../../data/uploads/',
             uriAction: '../../actions/file-manager.php',
             uriIcon: '../../examples/file-manager/icon/'
+        },
+        imageEditor: {
+            uriSave: '../../actions/image-editor.php'
         }
     }
 };

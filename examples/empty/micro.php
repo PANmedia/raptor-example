@@ -8,7 +8,9 @@
     <?= $example->renderHead(); ?>
     <script type="text/javascript">
         init(function($) {
-            $('.editable').raptor(defaultOptions);
+            $('.editable').raptor(extendDefaults({
+                preset: 'micro'
+            }));
         });
     </script>
     <style type="text/css">

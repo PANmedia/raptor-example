@@ -1,12 +1,12 @@
 <?php
 /**
- * RFM\FileManager
+ * RIE\ImageEditor
  *
  * @author David Neilsen <david@panmedia.co.nz>
  */
-namespace RFM;
+namespace RIE;
 
-class FileManager {
+class ImageEditor {
 
     public $root;
     public $action;
@@ -22,32 +22,9 @@ class FileManager {
             throw new ClientException('No action supplied.');
         }
         switch ($action) {
-            case 'delete': {
-                $this->input = $_POST;
-                return new ActionDelete($this);
-            }
-            case 'rename': {
-                $this->input = $_POST;
-                return new ActionRename($this);
-            }
             case 'save': {
-                return new ActionSave($this);
-            }
-            case 'upload': {
                 $this->input = $_POST;
-                return new ActionUpload($this);
-            }
-            case 'download': {
-                $this->input = $_GET;
-                return new ActionDownload($this);
-            }
-            case 'view': {
-                $this->input = $_GET;
-                return new ActionView($this);
-            }
-            case 'list': {
-                $this->input = $_GET;
-                return new ActionList($this);
+                return new ActionSave($this);
             }
         }
         throw new ClientException('Unknown action: ' . $action);
