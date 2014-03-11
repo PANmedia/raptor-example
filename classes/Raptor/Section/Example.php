@@ -5,6 +5,8 @@ use Raptor;
 
 class Example extends Raptor\Example {
 
+    public $layouts = [];
+
     public function saveSection($file) {
         if (isset($_POST['sections'])) {
             $data = [];
@@ -46,65 +48,74 @@ class Example extends Raptor\Example {
                 $data = [];
             }
         }
-        $result = '';
+
+        $renderers = [];
         if (isset($data[$id]) && !empty($data[$id])) {
-            foreach ($data[$id] as $sectionItem) {
-                $savedItem = json_encode($sectionItem);
-                $result .= "<div class='raptor-section-item' data-raptor-section='$savedItem'>";
-                if (isset($sectionItem['choice']) && isset($sectionItem['choice']['choice'])) {
-                    switch ($sectionItem['choice']['choice']) {
-                        case 1: {
-                            ob_start();
-                            include RAPTOR_EXAMPLE_DIR . '/examples/section/ajax-content-choice.php';
-                            $result .= ob_get_clean();
-                            break;
+            foreach ($data[$id] as $i => $item) {
+                switch ($item['type']) {
+                    case 'layout': {
+                        $renderers[$i] = new LayoutRenderer();
+                        $renderers[$i]->setName($item['name']);
+                        $renderers[$i]->setHtml($this->getLayout($item['name']));
+                        if ($item['layout'] !== null) {
+                            $renderers[$item['layout']]->addChild($renderers[$i], $item['pane']);
+                            $renderers[$i]->setHasParent(true);
                         }
-                        case 2: {
-                            $result .= 'Two';
-                            break;
-                        }
-                        case 3: {
-                            $result .= 'Three';
-                            break;
-                        }
+                        break;
                     }
-                } elseif ($sectionItem['type'] === 'nested-item') {
-                    $result .= "<div><p>Nest items.</p></div>";
-                } elseif ($sectionItem['type'] === 'raptor-block') {
-                    $id = uniqid('item-');
-                    $result .= "<div id='$id'>Some Raptor Content</div>";
-                    $result .= "
-                        <script type='text/javascript'>
-                            init(function($) {
-                                $('#$id').raptor(extendDefaults({
-                                    autoEnable: true
-                                }));
-                            });
-                        </script>
-                    ";
+                    case 'item': {
+                        $renderers[$i] = new ItemRenderer();
+                        $renderers[$i]->setName($item['name']);
+                        $renderers[$i]->setData($item['data']);
+                        if ($item['layout'] !== null) {
+                            $renderers[$item['layout']]->addChild($renderers[$i], $item['pane']);
+                            $renderers[$i]->setHasParent(true);
+                        }
+                        break;
+                    }
                 }
-                $result .= '</div>';
+            }
+        }
+
+        $result = '';
+        foreach ($renderers as $renderer) {
+            if (!$renderer->getHasParent()) {
+                $result .= $renderer->render();
             }
         }
         return $result;
-//        $revisions = [];
-//        if (file_exists($revisionsFile)) {
-//            $revisions = file_get_contents($revisionsFile);
-//            $revisions = json_decode($revisions, true);
-//            if ($revisions === false) {
-//                $revisions = [];
-//            }
-//        }
-//        if (isset($revisions[$_GET['id']])) {
-//            krsort($revisions[$_GET['id']]);
-//            foreach ($revisions[$_GET['id']] as $time => $data) {
-//                $result['revisions'][] = [
-//                    'identifier' => $time,
-//                    'content' => $data,
-//                    'updated' => $time . '000',
-//                ];
-//            }
-//        }
     }
+
+    // <editor-fold defaultstate="collapsed" desc="Getters and setters">
+    public function getLayouts() {
+        return $this->layouts;
+    }
+
+    public function getLayout($key) {
+        if (!isset($this->layouts[$key])) {
+            return null;
+        }
+        return $this->layouts[$key];
+    }
+
+    public function getLayoutJson($key) {
+        $layout = $this->getLayout($key);
+        if (!$layout) {
+            return 'null';
+        }
+        $layout = preg_replace('/{(.*?)}/', '', $layout);
+        return json_encode($layout);
+    }
+
+    public function setLayouts(array $layouts) {
+        $this->layouts = $layouts;
+        return $this;
+    }
+
+    public function addLayout($layout) {
+        $this->layouts[] = $layout;
+        return $this;
+    }
+    // </editor-fold>
 
 }
