@@ -120,6 +120,11 @@ class ActionList extends Action {
                     // Relitive path example
                     'name' => $name,
 
+                    'attributes' => [
+                        'data-test' => '[1,2,3]',
+                        'alt' => $name,
+                    ],
+
                     // Required attributes
                     'type' => fileGetExtension($name),
                     'size' => filesize($fullPath),
