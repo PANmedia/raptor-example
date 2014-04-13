@@ -2,6 +2,10 @@
 error_reporting(E_ALL);
 ini_set('display_errors', true);
 
+if (is_file(__DIR__ . '/vendor/autoload.php')) {
+    require_once __DIR__ . '/vendor/autoload.php';
+}
+
 define('ROOT', __DIR__ . '/../');
 define('BASE_URI', '../../../');
 define('RAPTOR_DATA_DIR', __DIR__ . '/data/');
@@ -34,6 +38,7 @@ require_once __DIR__ . '/classes/Raptor/Example.php';
 require_once __DIR__ . '/classes/Raptor/Comment/Example.php';
 require_once __DIR__ . '/classes/Raptor/ImageEditor/Example.php';
 require_once __DIR__ . '/classes/Raptor/Revision/Example.php';
+require_once __DIR__ . '/classes/Raptor/Sanitise/Example.php';
 require_once __DIR__ . '/classes/Raptor/Section/LayoutRenderer.php';
 require_once __DIR__ . '/classes/Raptor/Section/ItemRenderer.php';
 require_once __DIR__ . '/classes/Raptor/Section/Example.php';
