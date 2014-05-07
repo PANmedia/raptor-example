@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>embedresponsively.com</title>
+
+        <!-- based on work by Theirry Koblentz http://alistapart.com/article/creating-intrinsic-ratios-for-video -->
+        <!-- and Anders Andersen http://amobil.se/2011/11/responsive-embeds/ -->
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
+
+        <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <link href="css/bootstrap-responsive.css" rel="stylesheet">
+        <script src="js/jquery.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/uri.js"></script>
+
+        <style>
+
+            * {
+                font-family: "Open Sans", sans-serif !important;
+                font-weight: "300";
+            }
+
+            .embed-container {
+                position: relative;
+                padding-bottom: 56.25%;
+                padding-top: 30px;
+                height: 0;
+                overflow: hidden;
+            }
+
+            .embed-container-squarish {
+                position: relative;
+                padding-bottom: 120%;
+                padding-top: 30px;
+                height: 0;
+                overflow: hidden;
+            }
+
+            .embed-container iframe,
+            .embed-container object,
+            .embed-container embed {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+
+            .codebox {
+                width: 97%;
+                font-family:monospace !important;
+                font-size:11px;
+            }
+
+            @media only screen and (max-device-width: 480px) {
+                .inputfix {
+                    width: 66% !important;
+                }
+            }
+
+            @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+                .inputfix {
+                    width: 66% !important;
+                }
+            }
+
+        </style>
+
+        <script>
+
+            var embedLabel = "<br/><p class='control-label'>Embed code:</p>";
+            var embedContainerCSS = "&lt;style&gt;.embed-container { position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden; max-width: 100%; height: auto; } .embed-container iframe, .embed-container object, .embed-container embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }&lt;/style&gt;";
+            var embedSquareContainerCSS = "&lt;style&gt;.embed-container {position: relative; padding-bottom: 100%; padding-top: 30px; height: 0; overflow: hidden;} .embed-container iframe, .embed-container object, .embed-container embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }&lt;/style&gt;";
+            var embedSquarishContainerCSS = "&lt;style&gt;.embed-container {position: relative; padding-bottom: 120%; padding-top: 30px; height: 0; overflow: hidden;} .embed-container iframe, .embed-container object, .embed-container embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }&lt;/style&gt;";
+            var embedContainerDivOpen = "&lt;div class='embed-container'&gt;";
+            var embedContainerDivClose = "&lt;/div&gt;";
+
+            var previewLabel = "<p class='control-label'>Preview:</p>";
+            var previewPrefix = "<div class='embed-container'>";
+            var previewPrefixSquarish = "<div id='squarish' class='embed-container'>";
+            var previewSuffix = "</div>";
+
+            function createYouTubeEmbed() {
+                var youtubeURL = $("#youtube-url").val();
+                if (youtubeURL.length > 28) {
+                    var uri = youtubeURL;
+                    var queryString = {};
+                    uri.replace(
+                            new RegExp("([^?=&]+)(=([^&]*))?", "g"),
+                            function($0, $1, $2, $3) {
+                                queryString[$1] = $3;
+                            }
+                    );
+                    var youtubeID = (queryString['v']);
+                } else {
+                    var youtubeID = youtubeURL.substring(16);
+                }
+
+                var youtubeEmbed = "&lt;iframe src='http://www.youtube.com/embed/" + youtubeID + "' frameborder='0' allowfullscreen&gt;&lt;/iframe&gt;";
+                var youtubepreview = "<iframe src='http://www.youtube.com/embed/" + youtubeID + "' frameborder='0' allowfullscreen></iframe>";
+
+                $("#youtubeembedCode").html(embedLabel + "<textarea rows='12' class='codebox'>" + embedContainerCSS + embedContainerDivOpen + youtubeEmbed + embedContainerDivClose + "</textarea>");
+                $("#youtubepreview").html(previewLabel + previewPrefix + youtubepreview + previewSuffix);
+
+            }
+
+            function createVimeoEmbed() {
+                var vimeoURL = $("#vimeo-url").val();
+                var protocol = vimeoURL.slice(0, 5);
+                if (protocol == "https") {
+                    //then the video is served via https, doy
+                    var vimeoID = vimeoURL.substring(18);
+                } else {
+                    protocol = "http";
+                    var vimeoID = vimeoURL.substring(17);
+                }
+
+                var vimeoEmbed = "&lt;iframe src='" + protocol + "://player.vimeo.com/video/" + vimeoID + "' frameborder='0' webkitAllowFullScreen mozallowfullscreen allowFullScreen&gt;&lt;/iframe&gt;";
+                var vimeopreview = "<iframe src='" + protocol + "://player.vimeo.com/video/" + vimeoID + "'  frameborder='0' webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>";
+
+                $("#vimeoembedCode").html(embedLabel + "<textarea rows='12' class='codebox'>" + embedContainerCSS + embedContainerDivOpen + vimeoEmbed + embedContainerDivClose + "</textarea>");
+                $("#vimeopreview").html(previewLabel + previewPrefix + vimeopreview + previewSuffix);
+
+            }
+
+            function createDailymotionEmbed() {
+                var dailymotionURL = $("#dailymotion-url").val();
+                var dailymotionID = (m = dailymotionURL.match(new RegExp("\/video\/([^_?#]+).*?"))) ? m[1] : void 0;
+                var dailymotionEmbed = "&lt;iframe src='http://www.dailymotion.com/embed/video/" + dailymotionID + "' frameborder='0' webkitAllowFullScreen mozallowfullscreen allowFullScreen&gt;&lt;/iframe&gt;";
+                var dailymotionpreview = "<iframe src='http://www.dailymotion.com/embed/video/" + dailymotionID + "'  frameborder='0' webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>";
+
+                $("#dailymotionembedCode").html(embedLabel + "<textarea rows='12' class='codebox'>" + embedContainerCSS + embedContainerDivOpen + dailymotionEmbed + embedContainerDivClose + "</textarea>");
+                $("#dailymotionpreview").html(previewLabel + previewPrefix + dailymotionpreview + previewSuffix);
+            }
+
+            function createGoogleMapsEmbed() {
+                var googlemapsURL = $("#googlemaps-url").val();
+                var escapediFrameURL = googlemapsURL.replace(/\"/g, '\'');
+                var escapediFrameURLCode = escapediFrameURL.replace(/</g, '&lt;');
+                var escapediFrameURLCodeFinal = escapediFrameURLCode.replace(/>/g, '&gt;');
+
+                //alert(escapediFrameURL);
+                $("#googlemapsembedCode").html(embedLabel + "<textarea rows='12' class='codebox'>" + embedContainerCSS + embedContainerDivOpen + escapediFrameURLCodeFinal + embedContainerDivClose + "</textarea>");
+                $("#googlemapspreview").html(previewLabel + previewPrefix + escapediFrameURL + previewSuffix);
+
+            }
+
+            function createInstagramEmbed() {
+                var instagramURL = $("#instagram-url").val();
+                var shortinstagramURL = instagramURL.slice(5);
+                var last_character = shortinstagramURL[shortinstagramURL.length - 1];
+
+                if (last_character != "/") {
+                    shortinstagramURL = shortinstagramURL + "/";
+                }
+
+                var instagramEmbedURL = "<iframe src='" + shortinstagramURL + "embed/' frameborder='0' scrolling='no' allowtransparency='true'></iframe>";
+                $("#instagramembedCode").html(embedLabel + "<textarea rows='12' class='codebox'>" + embedSquarishContainerCSS + embedContainerDivOpen + instagramEmbedURL + embedContainerDivClose + "</textarea>");
+                $("#instagrampreview").html(previewLabel + previewPrefixSquarish + instagramEmbedURL + previewSuffix);
+                $("#squarish").css("padding-bottom", "120%");
+
+            }
+
+            function createVineEmbed() {
+
+                var vineURL = $("#vine-url").val();
+                var shortvineURL = vineURL;
+                var last_character = shortvineURL[shortvineURL.length - 1];
+                var vineScript = "&lt;script async src='//platform.vine.co/static/scripts/embed.js' charset='utf-8'&gt;&lt;/script&gt;";
+
+                if (last_character != "/") {
+                    shortvineURL = shortvineURL + "/";
+                }
+
+                var vineEmbedURL = "<iframe width='100%' src='" + shortvineURL + "embed/simple' frameborder='0' scrolling='no' allowtransparency='true'></iframe>" + vineScript;
+                $("#vineembedCode").html(embedLabel + "<textarea rows='12' class='codebox'>" + embedSquareContainerCSS + embedContainerDivOpen + vineEmbedURL + embedContainerDivClose + "</textarea>");
+                $("#vinepreview").html(previewLabel + previewPrefixSquarish + vineEmbedURL + previewSuffix);
+                $("#squarish").css("padding-bottom", "120%");
+
+            }
+
+            function createGenericEmbed() {
+                var genericURL = $("#generic-url").val();
+                var escapediFrameURL = genericURL.replace(/\"/g, '\'');
+                var escapediFrameURLCode = escapediFrameURL.replace(/</g, '&lt;');
+                var escapediFrameURLCodeFinal = escapediFrameURLCode.replace(/>/g, '&gt;');
+
+                //alert(escapediFrameURL);
+                $("#genericembedNote").fadeIn();
+                $("#genericembedCode").html(embedLabel + "<textarea rows='12' class='codebox'>" + embedContainerCSS + embedContainerDivOpen + escapediFrameURLCodeFinal + embedContainerDivClose + "</textarea>");
+                $("#genericpreview").html(previewLabel + previewPrefix + escapediFrameURL + previewSuffix);
+
+            }
+
+        </script>
+
+    </head>
+    <body>
+
+        <div class="navbar navbar-fixed-top navbar-inverse">
+            <div class="navbar-inner">
+                <a class="brand" href="#">&nbsp;Embed Responsively</a>
+                <form class="navbar-form pull-right">
+                    <a href="#about" role="button" class="btn btn-inverse" data-toggle="modal">About</a>&nbsp;
+                </form>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="span8 offset2">
+
+                    <div class="visible-desktop" style="height:60px"></div>
+
+                    <p>Select a media source below:</p>
+
+                    <ul id="leTab" class="nav nav-pills">
+                        <li class="active"><a href="#youtube" data-toggle="tab">YouTube</a></li>
+                        <li><a href="#vimeo" data-toggle="tab">Vimeo</a></li>
+                        <li><a href="#dailymotion" data-toggle="tab">Dailymotion</a></li>
+                        <li><a href="#googlemaps" data-toggle="tab">Google Maps</a></li>
+                        <li><a href="#instagram" data-toggle="tab">Instagram</a></li>
+                        <li><a href="#vine" data-toggle="tab">Vine</a></li>
+                        <li><a href="#iframe" data-toggle="tab">Generic iFrame</a></li>
+                        <li><a href="#more" data-toggle="tab">More</a></li>
+                    </ul>
+
+                    <div id="leTabContent" class="tab-content">
+                        <div class="tab-pane fade in active well" id="youtube">
+
+                            <form>
+                                <fieldset>
+                                    <label>YouTube URL:</label>
+                                    <div class="input-append">
+                                        <input class="span6 inputfix" id="youtube-url" type="text" placeholder="youtube.com/watch?v=QILiHiTD3uc">
+                                        <a class="btn btn-primary" onclick="createYouTubeEmbed();">Embed</a>
+                                    </div>
+                                </fieldset>
+                            </form>
+
+                            <div id="youtubepreview"></div>
+
+                            <div class="code" id="youtubeembedCode"></div>
+
+                        </div>
+                        <div class="tab-pane fade well" id="vimeo">
+
+                            <form>
+                                <fieldset>
+                                    <label>Vimeo URL:</label>
+                                    <div class="input-append">
+                                        <input class="span6 inputfix" id="vimeo-url" type="text" placeholder="http://vimeo.com/56810854">
+                                        <a class="btn btn-primary" onclick="createVimeoEmbed();">Embed</a>
+                                    </div>
+                                </fieldset>
+                            </form>
+
+                            <div id="vimeopreview"></div>
+
+                            <div class="code" id="vimeoembedCode"></div>
+
+                        </div>
+                        <div class="tab-pane fade well" id="dailymotion">
+
+                            <form>
+                                <fieldset>
+                                    <label>Dailymotion URL:</label>
+                                    <div class="input-append">
+                                        <input class="span6 inputfix" id="dailymotion-url" type="text" placeholder="http://dailymotion.com/video/xsr67x">
+                                        <a class="btn btn-primary" onclick="createDailymotionEmbed();">Embed</a>
+                                    </div>
+                                </fieldset>
+                            </form>
+
+                            <div id="dailymotionpreview"></div>
+
+                            <div class="code" id="dailymotionembedCode"></div>
+
+                        </div>
+
+                        <div class="tab-pane fade well" id="googlemaps">
+
+                            <form>
+                                <fieldset>
+                                    <label>Google Maps (iFrame Embed):</label>
+                                    <div class="input-append">
+                                        <input class="span6 inputfix" id="googlemaps-url" type="text" placeholder="<iframe width='425' height='350' frameborder='0' scrolling='no' marginheight='0' marginwidth='0' src='https://maps.google.com/maps?f=q&source=s_q&hl=en&geocode=&q=Statue+of+Liberty+National+Monument,+New+York,+NY&aq=0&oq=statue+of+&sll=37.6,-95.665&sspn=45.335781,50.976563&t=h&ie=UTF8&hq=Statue+of+Liberty+National+Monument,+New+York,+NY&ll=40.689268,-74.044738&spn=0.016921,0.032015&output=embed'></iframe>">
+                                        <a class="btn btn-primary" onclick="createGoogleMapsEmbed();">Embed</a>
+                                    </div>
+                                </fieldset>
+                            </form>
+
+                            <div id="googlemapspreview"></div>
+
+                            <div class="code" id="googlemapsembedCode"></div>
+
+                        </div>
+
+                        <div class="tab-pane fade well" id="iframe">
+
+                            <form>
+                                <fieldset>
+                                    <label>Generic iFrame Embed:</label>
+                                    <div class="input-append">
+                                        <input class="span6 inputfix" id="generic-url" type="text" placeholder="<iframe src='http://www.site.com/media/embed_code/16396881' width='425' height='350'></iframe>">
+                                        <a class="btn btn-primary" onclick="createGenericEmbed();">Embed</a>
+                                    </div>
+                                </fieldset>
+                            </form>
+
+                            <div id="genericpreview"></div>
+
+                            <div id="genericembedNote" class="alert alert-info" style="display:none; margin-top:15px"><strong>NOTE:</strong> You may want to remove any hard coded values you see below with regards to "width" and "height" in the below code. These values may be in the iFrame SRC parameters, or in the iFrame query string. Experiment to see what works best.</div>
+
+                            <div class="code" id="genericembedCode"></div>
+
+                        </div>
+
+                        <div class="tab-pane fade well" id="instagram">
+
+                            <form>
+                                <fieldset>
+                                    <label>Instagram URL:</label>
+                                    <div class="input-append">
+                                        <input class="span4 inputfix" id="instagram-url" type="text" placeholder="http://instagram.com/p/bWaCmcghHO/">
+                                        <a class="btn btn-primary" onclick="createInstagramEmbed();">Embed</a>
+                                    </div>
+                                </fieldset>
+                            </form>
+
+                            <div id="instagrampreview"></div>
+
+                            <div class="code" id="instagramembedCode"></div>
+
+                        </div>
+
+                        <div class="tab-pane fade well" id="vine">
+
+                            <form>
+                                <fieldset>
+                                    <label>Vine URL:</label>
+                                    <div class="input-append">
+                                        <input class="span6 inputfix" id="vine-url" type="text" placeholder="https://vine.co/v/hhJQzrWthqb">
+                                        <a class="btn btn-primary" onclick="createVineEmbed();">Embed</a>
+                                    </div>
+                                </fieldset>
+                            </form>
+
+                            <div id="vinepreview"></div>
+
+                            <div class="code" id="vineembedCode"></div>
+
+                        </div>
+
+                        <div class="tab-pane fade well" id="more">
+
+                            <p><strong>Great news!</strong> The embed codes offered by these services are already responsive:</p>
+
+                            <ul>
+                                <li><a href="http://scribd.com/">Scribd</a> (select 'Autosize')</li>
+                                <li><a href="http://soundcloud.com/">SoundCloud</a></li>
+                                <li><a href="http://storify.com/">Storify</a></li>
+                                <li><a href="http://twitter.com/">Twitter</a></li>
+                            </ul>
+
+                            <p>Know of more? <a href="mailto:jeffehobbs@gmail.com">Let me know</a> and report any issues on <a href="https://github.com/jeffehobbs/embedresponsively/issues/new">GitHub</a>.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <footer style="padding:10px 0px 10px 0px">
+            <p class="muted" style="text-align:center"><a href="https://github.com/jeffehobbs/embedresponsively">Download or fork on Github</a>.
+                Please Embed Responsively.</p>
+        </footer>
+
+        <div id="about" class="modal hide fade">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3>About</h3>
+            </div>
+            <div class="modal-body">
+
+                <p><strong>embedresponsively.com</strong> helps build responsive embed codes for embedding rich third-party media into responsive web pages.</p>
+
+                <p>The code here is based on research and work by <a href="http://alistapart.com/article/creating-intrinsic-ratios-for-video">Theirry Koblentz</a>, <a href="http://amobil.se/2011/11/responsive-embeds/">Anders Andersen</a> and <a href="http://niklausgerber.com/blog/responsive-google-or-bing-maps/">Niklaus Gerber</a>.</p>
+
+                <p>Created and maintained by <a href="http://twitter.com/jeffehobbs">@jeffehobbs</a>.</p>
+
+            </div>
+            <div class="modal-footer">
+                <p class="pull-left">Version 1.2 (added Dailymotion, thanks <a href="https://github.com/dharFr">dhar</a>!)</p>
+                <a href="#" class="btn btn-primary" data-dismiss="modal">OK</a>
+            </div>
+        </div>
+
+    </body>
+
+</html>

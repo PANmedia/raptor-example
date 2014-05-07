@@ -1,0 +1,25 @@
+<table id="<?= $id = uniqid('test-'); ?>" style="width: 900px;">
+    <thead>
+        <tr>
+            <th>Actions</th>
+            <th>ID</th>
+            <th>Title</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>
+                <button>Insert</button>
+            </th>
+            <th>1</th>
+            <th>Foo</th>
+        </tr>
+        <tr>
+            <th>
+                <button>Insert</button>
+            </th>
+            <th>2</th>
+            <th>Bar</th>
+        </tr>
+    </tbody>
+</table>

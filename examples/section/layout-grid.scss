@@ -1,0 +1,6 @@
+@import 'guff';
+
+.col {
+    @include span(12, true);
+}
+
