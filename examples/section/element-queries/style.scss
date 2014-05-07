@@ -1,0 +1,98 @@
+@import 'compass';
+@import 'susy';
+
+$container-width: 920px;
+
+body {
+    font-family: sans-serif;
+    margin: 0;
+}
+
+h1 {
+    font-size: 16px;
+}
+
+.clear {
+    clear: both;
+}
+
+.container {
+    width: $container-width;
+    margin: 0 auto;
+}
+
+.content,
+.sidebar,
+.col {
+    box-sizing: border-box;
+    border: 1px solid #aaa;
+    background-color: #eee;
+    border-radius: 5px;
+    padding: 0 1em;
+}
+
+.layout {
+    padding: 1em;
+    border: 1px dashed #aaa;
+}
+
+.full-width {
+    border-top: 1px solid #aaa;
+    border-bottom: 1px solid #aaa;
+    background-color: #eee;
+}
+
+.full-width .container {
+    box-sizing: border-box;
+    padding: 0 1em;
+}
+
+.large {
+    .right-sidebar {
+        .sidebar {
+            @include span-columns(4 omega, 12);
+            @include clearfix;
+        }
+
+        .content {
+            @include span-columns(8, 12);
+        }
+    }
+
+    .left-sidebar {
+        .sidebar {
+            @include span-columns(4, 12);
+        }
+
+        .content {
+            @include span-columns(8 omega, 12);
+        }
+    }
+
+    .two-col {
+        .col {
+            @include span-columns(6, 12);
+        }
+        .last {
+            @include span-columns(6 omega, 12);
+        }
+    }
+
+    .three-col {
+        .col {
+            @include span-columns(4, 12);
+        }
+        .last {
+            @include span-columns(4 omega, 12);
+        }
+    }
+
+    .five-col {
+        .col {
+            @include span-columns(3, 15);
+        }
+        .last {
+            @include span-columns(3 omega, 15);
+        }
+    }
+}
