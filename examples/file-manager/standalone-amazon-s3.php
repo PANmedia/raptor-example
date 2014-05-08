@@ -6,6 +6,11 @@
 <html>
 <head>
     <?php include __DIR__ . '/../../partials/head.php'; ?>
+    <style type="text/css">
+        body {
+            padding: 10px;
+        }
+    </style>
 </head>
 <body>
     <div id="file-manager"></div>
