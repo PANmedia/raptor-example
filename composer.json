@@ -1,5 +1,6 @@
 {
     "require": {
-        "ezyang/htmlpurifier": "~4.6"
+        "ezyang/htmlpurifier": "~4.6",
+        "imagine/imagine": "~0.5"
     }
 }
