@@ -23,9 +23,25 @@ function contentType($file) {
 $path = str_replace(['~', '..'], '', input('path', '/'));
 $file = RAPTOR_UPLOAD_DIR . '/' . $path;
 
-if (is_file($file) && contentType($file)) {
-    header('Content-type: ' . contentType($file));
-    readfile($file);
-} else {
+if (!is_file($file) || !contentType($file)) {
     header('HTTP/1.1 404 Not Found');
 }
+
+if (!class_exists('Imagine\Gd\Imagine')) {
+    header('Content-type: ' . contentType($file));
+    readfile($file);
+    return;
+}
+
+$cacheFile = __DIR__ . '/' . $path;
+
+$imagine = new Imagine\Gd\Imagine();
+$size = new Imagine\Image\Box(50, 50);
+$mode = Imagine\Image\ImageInterface::THUMBNAIL_INSET;
+
+$imagine->open($file)
+    ->thumbnail($size, $mode)
+    ->save($cacheFile);
+
+header('Content-type: ' . contentType($cacheFile));
+readfile($cacheFile);
