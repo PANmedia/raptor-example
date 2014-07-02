@@ -44,7 +44,7 @@
 <body>
     <?= $example->renderNavigation(); ?>
     <div class="source-watch" data-output="#source" data-target=".editable">
-        <div class="editable center half" data-id="body-1" data-csrf="">
+        <div class="editable center half" data-id="body-1">
             <?= $example->renderContent('body-1', $example->getDefaultContent()); ?>
         </div>
     </div>
