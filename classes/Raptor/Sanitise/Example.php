@@ -5,8 +5,8 @@ use HTMLPurifier;
 
 class Example extends Raptor\Example {
 
-    public function renderContent($section, $buffer = null) {
-        $result = parent::renderContent($section, $buffer);
+    public function renderContent($id, $buffer = null) {
+        $result = parent::renderContent($id, $buffer);
         $purifier = new HTMLPurifier();
         $result = $purifier->purify($result);
         return $result;
