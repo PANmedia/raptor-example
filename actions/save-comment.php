@@ -1,11 +1,14 @@
 <?php
 include __DIR__ . '/../include.php';
-$example = new Raptor\Comment\Example('Save Comment');
-
 $redirect = isset($_POST['redirect']) ? $_POST['redirect'] : '/';
-
-if ($example->saveComment(RAPTOR_DATA_DIR . '/comments.json')) {
+try {
+    $example = new Raptor\Comment\Example('Save Comment');
+    $example->save();
     header("Location: $redirect?status=success");
-} else {
-    header("Location: $redirect?status=failed");
+} catch (Raptor\ClientException $exception) {
+    http_response_code(400);
+    header("Location: $redirect?status=failed&message=" . urlencode($exception->getMessage()));
+} catch (Raptor\ServerException $exception) {
+    http_response_code(500);
+    header("Location: $redirect?status=failed&message=" . urlencode($exception->getMessage()));
 }
