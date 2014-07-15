@@ -1,4 +1,3 @@
-<h1>Raptor Editor - Default Content</h1>
 <p>
     Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
     has been the industry's standard dummy text ever since the 1500s, when an unknown printer
@@ -20,9 +19,6 @@
     has been the industry's standard dummy text ever since the 1500s, when an unknown printer
     took a galley of type and scrambled it to make a type specimen book.
 </p>
-<div>
-    This is a div.
-</div>
 <p>
     <span class="cms-blue">This text is blue.</span>
     <span class="cms-red">This text is red.</span>
@@ -35,51 +31,6 @@
     <em class="cms-font-arial">This text is Arial.</em>
     <em class="cms-font-comic-sans">This text is Comic Sans.</em>
     <em class="cms-font-impact">This text is Impact.</em>
-</p>
-
-<ul>
-    <li>
-        List item 1
-    </li>
-    <li>
-        List item 2
-    </li>
-    <li>
-        <p>List item 3</p>
-    </li>
-</ul>
-
-<ol>
-    <li>
-        List item 1
-    </li>
-    <li>
-        List item 2
-    </li>
-    <li>
-        <p>List item 3</p>
-    </li>
-</ol>
-
-<p>
-    Text before the image.
-    <img src="../../partials/raptor.png" width="100" data-id="raptor-example/partials/raptor.png" />
-    Text after the image.
-</p>
-<p>
-    The before below is a link.
-    <a href="http://www.raptor-editor.com">
-        <img src="../../partials/raptor.png" width="100" data-id="raptor-example/partials/raptor.png" />
-    </a>
-    The after above is a link.
-</p>
-
-<p>
-    <img src="../../partials/raptor.png" width="20" data-id="raptor-example/partials/raptor.png" />
-    <img src="../../partials/raptor.png" width="20" data-id="raptor-example/partials/raptor.png" />
-    <img src="../../partials/raptor.png" width="20" data-id="raptor-example/partials/raptor.png" />
-    <img src="../../partials/raptor.png" width="20" data-id="raptor-example/partials/raptor.png" />
-    <img src="../../partials/raptor.png" width="20" data-id="raptor-example/partials/raptor.png" />
 </p>
 
 <table class="cms-table">
