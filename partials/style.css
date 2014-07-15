@@ -13,6 +13,52 @@ li {
     line-height: 1.2;
 }
 
+blockquote {
+    margin: 10px 20px;
+    padding: 0px 20px;
+    background-color: #eee;
+    overflow: auto;
+}
+
+pre {
+    margin: 0;
+}
+
+img {
+    max-width: 100%;
+}
+
+.cms-table {
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+    overflow: auto;
+    width: 100%;
+}
+
+.cms-table tr:nth-of-type(odd) {
+    background: #f0f0f0;
+}
+
+.cms-table tr:nth-of-type(even) {
+    background: #fff;
+}
+
+.cms-table th {
+    font-weight: bold;
+}
+
+.cms-table td,
+.cms-table th {
+    border-right: 1px solid #ddd;
+    padding: 7px;
+    text-align: left;
+}
+
+.cms-table td:last-child,
+.cms-table th:last-child {
+    border: 0;
+}
+
 .cms-blue-bg {
     background-color: #2e6e9e;
 }
@@ -53,17 +99,6 @@ li {
     height: 40px;
 }
 
-blockquote {
-    margin: 10px 20px;
-    padding: 0px 20px;
-    background-color: #eee;
-    overflow: auto;
-}
-
-pre {
-    margin: 0;
-}
-
 .half {
     float: left;
     width: 45%;
@@ -93,27 +128,15 @@ pre {
     float: none;
 }
 
+.full {
+    margin: 0 1%;
+}
+
 .outline {
-    border: 1px dotted #777;
-}
-
-.editable table {
-    width: 100%;
-}
-
-.editable td,
-.editable th {
     border: 1px dotted #777;
 }
 
 .CodeMirror-scroll {
     overflow: visible !important;
     height: auto !important;
-}
-
-table {
-    width: 100%;
-}
-td, th {
-    border: 1px dotted #777;
 }
