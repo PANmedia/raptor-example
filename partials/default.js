@@ -21,7 +21,7 @@ var defaultOptions = {
             plugin: 'saveJson'
         },
         saveJson: {
-            url: '../../actions/save-content.php',
+            url: '../../actions/save-content-json.php',
             postName: 'raptor-content',
             id: function() {
                 return this.raptor.getElement().data('id');
