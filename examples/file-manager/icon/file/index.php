@@ -34,6 +34,13 @@ if (!class_exists('Imagine\Gd\Imagine')) {
 }
 
 $cacheFile = __DIR__ . '/' . $path;
+$cacheDir = dirname($cacheFile);
+if (!file_exists($cacheDir)) {
+    mkdir($cacheDir, 0777, true);
+}
+if (!is_dir($cacheDir)) {
+    throw new Exception('Cache directory does not exist, and could not be created.');
+}
 
 $imagine = new Imagine\Gd\Imagine();
 $size = new Imagine\Image\Box(50, 50);
