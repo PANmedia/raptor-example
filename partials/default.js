@@ -11,6 +11,8 @@ if (typeof raptor !== 'undefined') {
 var preset = 'full';
 if (typeof init.fn.raptor.Raptor.presets['full-premium'] !== 'undefined') {
     preset = 'full-premium';
+} else if (typeof init.fn.raptor.Raptor.presets['mammoth'] !== 'undefined') {
+    preset = 'mammoth';
 }
 
 var defaultOptions = {
