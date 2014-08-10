@@ -6,6 +6,7 @@ use Raptor;
 class Example extends Raptor\Example {
 
     public $layouts = [];
+    public $data = null;
 
     public function saveSection($file) {
         if (isset($_POST['sections'])) {
@@ -35,40 +36,41 @@ class Example extends Raptor\Example {
         return json_encode(false);
     }
 
+    public function renderContainer($id, $classes) {
+        $data = json_encode([
+            'title' => $this->getTitle($id, 'Small Top Container'),
+        ]);
+        return "
+            <div class='section $classes' data-id='$id' data-container='$data'>
+                {$this->renderSections($id)}
+            </div>
+        ";
+    }
+
     public function renderSection($html) {
         return "<div class='raptor-section-item' data-raptor-section='{}'>$html</div>";
     }
-    
+
     public function renderSections($id) {
-        $file = RAPTOR_DATA_DIR . '/sections.json';
-        if (file_exists($file)) {
-            $data = file_get_contents($file);
-            $data = json_decode($data, true);
-            if ($data === false) {
-                $data = [];
-            }
-        }
+        $data = $this->getData();
 
         $renderers = [];
         if (isset($data[$id]) && !empty($data[$id])) {
-            foreach ($data[$id] as $i => $item) {
+            foreach ($data[$id]['items'] as $i => $item) {
                 switch ($item['type']) {
                     case 'layout': {
-                        $renderers[$i] = new LayoutRenderer();
-                        $renderers[$i]->setName($item['name']);
+                        $renderers[$i] = new LayoutRenderer($item);
                         $renderers[$i]->setHtml($this->getLayout($item['name']));
-                        if ($item['layout'] !== null) {
-                            $renderers[$item['layout']]->addChild($renderers[$i], $item['pane']);
+                        if ($item['layoutIndex'] !== null) {
+                            $renderers[$item['layoutIndex']]->addChild($renderers[$i], $item['layoutPane']);
                             $renderers[$i]->setHasParent(true);
                         }
                         break;
                     }
                     case 'item': {
-                        $renderers[$i] = new ItemRenderer();
-                        $renderers[$i]->setName($item['name']);
-                        $renderers[$i]->setData($item['data']);
-                        if ($item['layout'] !== null) {
-                            $renderers[$item['layout']]->addChild($renderers[$i], $item['pane']);
+                        $renderers[$i] = new ItemRenderer($item);
+                        if ($item['layoutIndex'] !== null) {
+                            $renderers[$item['layoutIndex']]->addChild($renderers[$i], $item['layoutPane']);
                             $renderers[$i]->setHasParent(true);
                         }
                         break;
@@ -86,6 +88,28 @@ class Example extends Raptor\Example {
         return $result;
     }
 
+    public function getTitle($id, $defaultTitle) {
+        $data = $this->getData();
+        if (isset($data[$id]) && isset($data[$id]['title'])) {
+            return $data[$id]['title'] ?: $defaultTitle;
+        }
+        return $defaultTitle;
+    }
+
+    public function getData() {
+        if (!$this->data) {
+            $file = RAPTOR_DATA_DIR . '/sections.json';
+            if (file_exists($file)) {
+                $this->data = file_get_contents($file);
+                $this->data = json_decode($this->data, true);
+                if ($this->data === false) {
+                    $this->data = [];
+                }
+            }
+        }
+        return $this->data;
+    }
+
     // <editor-fold defaultstate="collapsed" desc="Getters and setters">
     public function getLayouts() {
         return $this->layouts;
@@ -99,11 +123,11 @@ class Example extends Raptor\Example {
     }
 
     public function getLayoutJson($key) {
-        $layout = $this->getLayout($key);
+        $layout = (new LayoutRenderer())->setHtml($this->getLayout($key))->render();
         if (!$layout) {
             return 'null';
         }
-        $layout = preg_replace('/{(.*?)}/', '', $layout);
+        $layout = preg_replace('/{([0-9]+)}/', '', $layout);
         return json_encode($layout);
     }
 
