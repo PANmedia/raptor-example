@@ -3,28 +3,32 @@
     $example = new Raptor\Section\Example('Section Example');
     $example->setLayouts([
         'col-2' => '
-            <div data-layout="col-2" data-title="2 Column Layout" class="layout-col-2 layout-row">
-                <div data-pane="1" data-title="Left Pane" class="layout-col layout-col-1">{1}</div>
-                <div data-pane="2" data-title="Right Pane" class="layout-col layout-col-2 layout-col-last">{2}</div>
+            <div {{layout, col-2, 2 Column Layout}} class="layout-2-col layout-row">
+                <div {{pane, 1, Left Pane}} class="layout-col layout-col-1">{1}</div>
+                <div {{pane, 2, Right Pane}} class="layout-col layout-col-2 layout-col-last">{2}</div>
+                <div style="clear:both"></div>
             </div>
         ',
         'col-3' => '
-            <div data-layout="col-3" data-title="3 Column Layout" class="layout-col-3 layout-row">
-                <div data-pane="1" data-title="Left Pane" class="layout-col layout-col-1">{1}</div>
-                <div data-pane="2" data-title="Middle Pane" class="layout-col layout-col-2">{2}</div>
-                <div data-pane="3" data-title="Right Pane" class="layout-col layout-col-3 layout-col-last">{3}</div>
+            <div {{layout, col-3, 3 Column Layout}} class="layout-3-col layout-row">
+                <div {{pane, 1, Pane 1}} class="layout-col layout-col-1">{1}</div>
+                <div {{pane, 2, Pane 2}} class="layout-col layout-col-2">{2}</div>
+                <div {{pane, 3, Pane 3}} class="layout-col layout-col-3 layout-col-last">{3}</div>
+                <div style="clear:both"></div>
             </div>
         ',
         'sidebar-right' => '
-            <div data-layout="sidebar-right" data-title="Right Sidebar Layout" class="layout-sidebar-right layout-row">
-                <div data-pane="1" data-title="Content Pane" class="layout-col layout-content">{1}</div>
-                <div data-pane="2" data-title="Sidebar Pane" class="layout-col layout-sidebar">{2}</div>
+            <div {{layout, sidebar-right, Right Sidebar Layout}} class="layout-sidebar-right layout-row">
+                <div {{pane, 1, Content Pane}} class="layout-col layout-content">{1}</div>
+                <div {{pane, 2, Sidebar Pane}} class="layout-col layout-sidebar">{2}</div>
+                <div style="clear:both"></div>
             </div>
         ',
         'sidebar-left' => '
-            <div data-layout="sidebar-left" data-title="Left Sidebar Layout" class="row">
-                <div data-pane="2" data-title="Sidebar Pane" class="col col3">{2}</div>
-                <div data-pane="1" data-title="Content Pane" class="col col9 last">{1}</div>
+            <div {{layout, sidebar-left, Left Sidebar Layout}} class="layout-sidebar-left">
+                <div {{pane, 2, Content Pane}} class="layout-col layout-content">{2}</div>
+                <div {{pane, 1, Sidebar Pane}} class="layout-col layout-sidebar">{1}</div>
+                <div style="clear:both"></div>
             </div>
         '
     ]);
@@ -108,25 +112,57 @@
             text-shadow: 1px 1px #000;
         }
 
-        /*
-        .raptor-section-item {
-            border: 1px dotted #aaa;
+        /* Debug styles */
+        .section {
+            background-color: rgba(0, 0, 0, 0.1);
         }
 
-        .pane-horz,
-        .pane-vert {
-            border: 1px dotted #afa;
-            min-height: 10px;
-        }
-        .pane-vert {
+        /* Layouts */
+        .layout-2-col .layout-col-1 {
+            width: 49%;
             float: left;
-            width: 30%;
         }
 
-        .raptor-section-item-active {
-            border: 1px solid #faa;
+        .layout-2-col .layout-col-2 {
+            width: 49%;
+            float: right;
         }
-        */
+
+        .layout-3-col .layout-col-1 {
+            width: 32%;
+            float: left;
+        }
+
+        .layout-3-col .layout-col-2 {
+            width: 32%;
+            float: left;
+            margin-left: 2%;
+        }
+
+        .layout-3-col .layout-col-3 {
+            width: 32%;
+            float: right;
+        }
+
+        .layout-sidebar-right .layout-sidebar {
+            float: right;
+            width: 29%;
+        }
+
+        .layout-sidebar-right .layout-content {
+            float: left;
+            width: 69%;
+        }
+
+        .layout-sidebar-left .layout-sidebar {
+            float: left;
+            width: 29%;
+        }
+
+        .layout-sidebar-left .layout-content {
+            float: right;
+            width: 69%;
+        }
     </style>
 </head>
 <body>
@@ -134,18 +170,10 @@
     <div class="editable center half" data-id="body-1">
         <h1>Section Example</h1>
         <div>
-            <div class="section top-small outline" data-id="1" data-title="Small Top Container">
-                <?= $example->renderSections(1); ?>
-            </div>
-            <div class="section top outline" data-id="2" data-title="Top Container">
-                <?= $example->renderSections(2); ?>
-            </div>
-            <div class="section left outline" data-id="3" data-title="Content Container">
-                <?= $example->renderSections(3); ?>
-            </div>
-            <div class="section right outline" data-id="4" data-title="Sidebar Container">
-                <?= $example->renderSections(4); ?>
-            </div>
+            <?= $example->renderContainer(1, 'top-small'); ?>
+            <?= $example->renderContainer(2, 'top'); ?>
+            <?= $example->renderContainer(3, 'left'); ?>
+            <?= $example->renderContainer(4, 'right'); ?>
         </div>
     </div>
     <script type="text/javascript">
@@ -184,56 +212,52 @@
                         {
                             label: 'Insert via Dialog',
                             title: 'Insert via Dialog',
-                            type: 'insert-dialog',
-                            dialog: null,
+                            name: 'insert-dialog',
                             insert: function(sectionItem) {
                                 this.sectionItem = sectionItem;
-                                this.getDialog().dialog('open');
+                                this.getDialog(sectionItem, false);
                             },
-                            getDialog: function() {
-                                if (!this.dialog) {
-                                    this.dialog = $(<?= $dialog; ?>);
-                                    this.dialog.dialog({
-                                        title: 'Insert Quick Link',
-                                        modal: true,
-                                        buttons: [
-                                            {
-                                                text: 'Insert',
-                                                click: function() {
-                                                    var content = <?= $content; ?>;
-                                                    this.sectionItem.raptorSectionItem.choice = {};
-                                                    content = content.replace(/{{(.*?)}}/g, function(match, token) {
-                                                        var value = this.dialog.find('[name=\"' + token + '\"]').val();
-                                                        this.sectionItem.raptorSectionItem.choice[token] = value;
-                                                        return value;
-                                                    }.bind(this));
-                                                    this.sectionItem.innerHTML = content;
-                                                    this.dialog.dialog('close');
-                                                }.bind(this)
-                                            }
-                                        ]
-                                    });
+                            edit: function(sectionItem) {
+                                var choices = sectionItem.raptorSectionItem.data.choice,
+                                    dialog = this.getDialog(sectionItem, true);
+                                for (var key in choices) {
+                                    dialog.find('[name="' + key + '"]').val(choices[key]);
                                 }
-                                return this.dialog;
-                            }
-                        },
-                        {
-                            label: 'Ajax Chooser',
-                            title: 'Make a Choice',
-                            type: 'ajax-choice-example',
-                            choices: {
-                                url: 'ajax-choices.php'
                             },
-                            bind: function(section, content) {
-                                $(content).on('click', 'button', function() {
-                                    section.choiceInsert('<script src="test.js"></'+'script>', 'test');
-    //                                section.choiceInsert($(this).closest('tr').text(), 'test');
+                            getDialog: function(sectionItem, editing) {
+                                var dialog = $(<?= $dialog; ?>);
+                                dialog.dialog({
+                                    title: 'Insert Quick Link',
+                                    modal: true,
+                                    close: function() {
+                                        if (!editing) {
+                                            sectionItem.parentNode.removeChild(sectionItem);
+                                        }
+                                        dialog.dialog('destroy').remove();
+                                    },
+                                    buttons: [
+                                        {
+                                            text: 'Insert',
+                                            click: function() {
+                                                var content = <?= $content; ?>;
+                                                sectionItem.raptorSectionItem.choice = {};
+                                                content = content.replace(/{{(.*?)}}/g, function(match, token) {
+                                                    var value = dialog.find('[name="' + token + '"]').val();
+                                                    sectionItem.raptorSectionItem.choice[token] = value;
+                                                    return value;
+                                                });
+                                                sectionItem.innerHTML = content;
+                                                dialog.dialog('destroy').remove();
+                                            }
+                                        }
+                                    ]
                                 });
+                                return dialog;
                             }
                         },
                         {
                             label: 'Ajax Content',
-                            type: 'ajax-content',
+                            name: 'ajax-content',
                             insert: function(sectionItem) {
                                 sectionItem.innerHTML = 'Loading...';
                                 $.ajax({
@@ -248,7 +272,7 @@
                         },
                         {
                             label: 'Raptor Block',
-                            type: 'raptor-block',
+                            name: 'raptor-block',
                             insert: function(sectionItem) {
                                 sectionItem.innerHTML = '<div><p>Add new content here.</p></div>';
                                 $(sectionItem.firstChild).raptor(extendDefaults({
