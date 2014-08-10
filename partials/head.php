@@ -8,6 +8,8 @@
         require_once RAPTOR_DEPENDENCIES_DIR . 'include.php';
     ?>
     <script src="<?= RAPTOR_PACKAGES_URI; ?>raptor.js"></script>
+    <link rel="stylesheet" href="<?= RAPTOR_PACKAGES_URI; ?>raptor.css"></script>
+    <link rel="stylesheet" href="<?= RAPTOR_PACKAGES_URI; ?>raptor-front-end.css"></script>
 <?php elseif ($type === 'include'): ?>
     <?php
         require_once RAPTOR_THEMES_DIR . 'include.php';
