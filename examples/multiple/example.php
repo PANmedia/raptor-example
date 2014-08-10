@@ -8,45 +8,32 @@
     <?= $example->renderHead(); ?>
     <script type="text/javascript">
         init(function($) {
-            $('.editable').raptor(extendDefaults({
-                autoEnable: true
-            }));
+            $('.editable').raptor(defaultOptions);
         });
     </script>
     <style type="text/css">
         .editable {
-            width: 300px;
-            height: 300px;
-            float: left
+            width: 45%;
+            min-height: 300px;
+            float: left;
+            margin: 1%;
         }
     </style>
 </head>
 <body>
     <?= $example->renderNavigation(); ?>
-    <div class="wrapper center">
-        <div class="center half">
-            <h1>Raptor Multiple Blocks Example</h1>
-            <div class="editable outline" data-id="body-1">
-                <?php ob_start(); ?>
-                One
-                <?= $example->renderContent('body-1', ob_get_clean()); ?>
-            </div>
-            <div class="editable outline" data-id="body-2">
-                <?php ob_start(); ?>
-                Two
-                <?= $example->renderContent('body-2', ob_get_clean()); ?>
-            </div>
-            <div class="editable outline" data-id="body-3">
-                <?php ob_start(); ?>
-                Three
-                <?= $example->renderContent('body-3', ob_get_clean()); ?>
-            </div>
-            <div class="editable outline" data-id="body-4">
-                <?php ob_start(); ?>
-                Four
-                <?= $example->renderContent('body-4', ob_get_clean()); ?>
-            </div>
-        </div>
+    <h1>Raptor Multiple Blocks Example</h1>
+    <div class="editable outline" data-id="body-1">
+        <?= $example->renderContent('body-1', $example->getDefaultContent()); ?>
+    </div>
+    <div class="editable outline" data-id="body-2">
+        <?= $example->renderContent('body-2', $example->getDefaultContent()); ?>
+    </div>
+    <div class="editable outline" data-id="body-3">
+        <?= $example->renderContent('body-3', $example->getDefaultContent()); ?>
+    </div>
+    <div class="editable outline" data-id="body-4">
+        <?= $example->renderContent('body-4', $example->getDefaultContent()); ?>
     </div>
 </body>
 </html>
