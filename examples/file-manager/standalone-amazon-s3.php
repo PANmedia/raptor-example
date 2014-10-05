@@ -24,6 +24,7 @@
                 signature: <?= json_encode($signature); ?>
             }
         });
+        rfm.refresh();
     </script>
 </body>
 </html>
