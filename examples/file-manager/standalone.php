@@ -17,6 +17,7 @@
             uriAction: '<?= RAPTOR_EXAMPLE_URI; ?>actions/file-manager.php',
             uriIcon: '<?= RAPTOR_EXAMPLE_URI; ?>examples/file-manager/icon/'
         });
+        rfm.refresh();
     </script>
 </body>
 </html>
