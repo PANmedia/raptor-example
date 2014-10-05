@@ -12,15 +12,13 @@
         init(function($) {
             $('.editable').raptor(extendDefaults({
                 preset: 'inline',
-                replaceStyle: [
-                    'position', 'float', 'width',
-                    'padding-left', 'padding-right', 'padding-top', 'padding-bottom',
-                    'margin-left', 'margin-right', 'margin-top', 'margin-bottom'
-                ],
                 bind: {
                     layoutShow: function() {
-                        $('.ui-notification').hide();
-                        this.getElement().show();
+                        setTimeout(function() {
+                            this.getElement().closest('.source-watch').find('.ui-notification').hide();
+                            this.getElement().show();
+                            this.getElement().parent().show();
+                        }.bind(this), 1000);
                     }
                 }
             }));
